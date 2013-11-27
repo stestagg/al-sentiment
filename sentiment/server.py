@@ -8,11 +8,16 @@ Options:
  -d, --debug      Run the webserver in debug mode (not safe)
  -l <host>, --listen=<host>  Bind the webserver to this address
                              [default: 127.0.0.1]
+ -f, --database=<db>  Path to the SQLite database file [default: :memory:]
 """
 
-import docopt
 import sys
+
+import docopt
 import flask
+
+import sentiment.models
+
 
 app = flask.Flask(__name__)
 
@@ -35,6 +40,9 @@ def main():
         port = int(options["--port"])
     except ValueError:
         usage("Port must be an integer")
+
+    # Connect to the right Database
+    sentiment.models.setup(options["--database"])
     app.run(port=port, host=options["--listen"], debug=options["--debug"])
 
 
