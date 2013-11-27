@@ -16,7 +16,7 @@ def fetch_tweets():
         handle_new_tweets(new_tweets)
     except Exception as e:
         # TODO: don't return unguarded exception messages to user
-        return str(e.message)
+        return str(e)
 
 
 def handle_new_tweets(tweets):
