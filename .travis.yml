@@ -5,8 +5,8 @@ python:
 
 install:
  - pip install -r requirements.txt
- - pip install pep8
+ - pip install -r test-requirements.txt
 
-script: 
- - nosetests -v -s sentiment  /
- - pep8 sentiment
+script:
+ - nosetests -v -s 
+ - pep8 .
