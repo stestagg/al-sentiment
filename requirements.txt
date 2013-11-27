@@ -2,3 +2,4 @@ fin
 flask
 docopt
 peewee
+requests

@@ -17,6 +17,7 @@ import docopt
 import flask
 
 import sentiment.models
+import sentiment.feed
 
 
 app = flask.Flask(__name__)
@@ -32,6 +33,11 @@ def ping():
 def index():
     """Displays the main page HTML, other resources are fetched via JSON"""
     return flask.render_template("index.html")
+
+
+@app.route("/update")
+def update():
+    return str(sentiment.feed.fetch_tweets())
 
 
 def main():

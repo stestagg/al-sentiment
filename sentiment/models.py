@@ -22,6 +22,19 @@ class User(peewee.Model):
     handle = peewee.TextField(primary_key=True)
     followers = peewee.IntegerField()
 
+    @classmethod
+    def get_and_update_followers(cls, handle, followers):
+        try:
+            user = User.get(handle=handle)
+        except peewee.DoesNotExist:
+            new = User.create(handle=handle, followers=followers)
+            return new
+        else:
+            if user.followers != followers:
+                user.followers = followers
+                user.save()
+            return user
+
 
 class Tweet(peewee.Model):
 
