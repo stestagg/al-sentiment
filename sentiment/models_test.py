@@ -28,6 +28,6 @@ class TweetTest(unittest.TestCase):
                 0.1: "positive",
                 -0.1: "negative",
                 1: "positive"
-                }.iteritems():
+                }.items():
             tweet = sentiment.models.Tweet(sentiment=value)
             self.assertEqual(tweet.sentiment_text, sentiment_text)
