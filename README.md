@@ -35,7 +35,31 @@ server.py - responsible for option parsing, providing the webserver endpoints, a
 models.py - defines standard peewee models (tracking users and tweets)
 feed.py - responsible for interactions with the feed API
 
-The tweet data is persisted to 
+The tweet data is persisted to a sqlite3 database, managed by PeeWee, the data model is very simple:
+
+![Data model](datamodel.png)
+
+By splitting out the users into a separate table, assumptions were made about what
+the 'followers' element of the twitter data represented.  `sentiment` assumes
+that the tweet follower field represents the users's current follower count
+(at the time the tweet was sent).  The user table is kept up-to-date with
+the latest follower count seen for each user, but does not do any timestamp
+comparison, so out-of-order tweets coming from the API may affect the correctness
+of this value.
+
+Because the Users table is keyed by string, the Tweets table still contains useful information
+when queried in the absence of the Users table, because each entry has the handle of the sender
+alongside the tweet, this would have implications if users were able to change their handle,
+but that information is not available over the API anyway.  
+
+The performance overheads of having an indexed string primary key were not considered
+significant for this scenario.
+
+Tests
+-----
+
+All tests, and coding style checks are run on travis-ci, the current build status may be
+seen at the top of this readme.
 
 Tests are designed to be run by python-nose.  Unit-tests are defined in test modules alongside the
 application code (for example sentiment/feed_test.py) and test functionality in the accompanying file.
