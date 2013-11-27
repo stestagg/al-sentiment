@@ -15,9 +15,12 @@ To run the web server:
 3. Install the requirements in requirements.txt (`pip install -r requirements.txt`)
 4. If it's not executable, make 'runserver' executable `chmod +x runserver`
 5. Run the runserver script `./runserver`
+6. The web server will shortly start serving requests on `http://localhost:5000`
+
+To start using the app, browse to this URL, and click 'Fetch more messages'
 
 By default the server will run with an in-memory database, to specify a
-persistent database file, add `--database=/path/to/sqlite3/file`
+persistent database file, add `--database=/path/to/sqlite3/file` to the command-line.
 
 Database setup is handled automatically by al-sentiment, if the file pointed to
 by `--database` is not present, it will be created.
@@ -35,13 +38,13 @@ server.py - responsible for option parsing, providing the webserver endpoints, a
 models.py - defines standard peewee models (tracking users and tweets)
 feed.py - responsible for interactions with the feed API
 
-The tweet data is persisted to a sqlite3 database, managed by PeeWee, the data model is very simple:
+The tweet data is persisted to a sqlite3 database, managed by PeeWee (location determined by command-line arguments), the data model is very simple:
 
 ![Data model](datamodel.png)
 
 By splitting out the users into a separate table, assumptions were made about what
 the 'followers' element of the twitter data represented.  `sentiment` assumes
-that the tweet follower field represents the users's current follower count
+that the tweet `follower` field represents the users's current follower count
 (at the time the tweet was sent).  The user table is kept up-to-date with
 the latest follower count seen for each user, but does not do any timestamp
 comparison, so out-of-order tweets coming from the API may affect the correctness
