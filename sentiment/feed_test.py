@@ -51,10 +51,12 @@ class FeedTest(unittest.TestCase):
             self.assertEqual(tweets[0].seen_count, 2)
 
     def test_feed_failures(self):
-        # Here's to hoping that 404.example.com never exists
+        # Here's to hoping that 404.example.com never exists,
+        # Replace the feed url with a valid, but non-existant URL
+        # and check that there's no traceback, but an error is reported
         with fin.patch.patch(sentiment.feed,
                              "FEED_URL",
                              "http://404.example.com"):
             self.assertIn(
-                "nodename nor servname provided, or not known",
+                "[Errno",
                 sentiment.feed.fetch_tweets())
