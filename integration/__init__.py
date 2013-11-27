@@ -10,40 +10,6 @@ ROOT = os.path.dirname(os.path.dirname(
     inspect.getfile(inspect.currentframe())))
 
 
-# Copied from trms code, slightly less-ugly way to wait for server to become
-# available
-
-def is_child_running(pid):
-    """Tests if a process is still alive"""
-    try:
-        res = os.waitpid(pid, os.WNOHANG)
-    except OSError:
-        return False
-    return res == (0, 0)
-
-
-def wait_port(pid, port, host="127.0.0.1", timeout=5):
-    sock = socket.socket(socket.AF_INET)
-    sock.settimeout(timeout)
-    start = time.time()
-    while True:
-        try:
-            if not is_child_running(pid):
-                raise AssertionError(
-                    "Waiting for port from process that isn't running")
-            sock.connect((host, port))
-            sock.shutdown(socket.SHUT_RDWR)
-            sock.close()
-        except socket.error:
-            pass
-        else:
-            return
-        if timeout <= (time.time() - start):
-            raise AssertionError(
-                "Timeout waiting for port to become available")
-        time.sleep(0.1)
-
-
 class Webserver(object):
 
     """
@@ -62,11 +28,7 @@ class Webserver(object):
                                      "--port=%s" % (cls.PORT)])
         # This is *ugly* but quick and simple for now,
         # TODO: use socket polling with process monitoring
-        try:
-            wait_port(cls.PROC.pid, cls.PORT)
-        except:
-            cls.PROC.terminate()
-            raise
+        time.sleep(0.5)
 
     @classmethod
     def stop(cls):

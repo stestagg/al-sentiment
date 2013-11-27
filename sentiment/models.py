@@ -11,7 +11,7 @@ def setup(connection_string):
     # Create any missing tables, this does not handle schema migrations (yet)
     for model in [User, Tweet]:
         if not model.table_exists():
-            mode.create_table()
+            model.create_table()
 
 
 class User(peewee.Model):
