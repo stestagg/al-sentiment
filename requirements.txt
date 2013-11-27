@@ -1,3 +1,4 @@
 fin
 flask
 docopt
+peewee
