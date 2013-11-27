@@ -1,0 +1,6 @@
+{% for tweet in tweets %}
+<div class="list-group-item {% if tweet.contains_keyword %}tagged{% endif %}">
+<div>By: <b>{{tweet.user.handle}}</b> - Sentiment: {{tweet.sentiment}}</div>
+{{tweet.message}}
+</div>
+{% endfor %}

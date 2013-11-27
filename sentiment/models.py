@@ -1,9 +1,10 @@
 import peewee
+import re
 
 # Create PeeWee DB model without initialising it
 # The server is responsible for deciding the connection
 # parameters
-DB = peewee.SqliteDatabase(None)
+DB = peewee.SqliteDatabase(None, threadlocals=True)
 
 
 def setup(connection_string):
@@ -38,10 +39,22 @@ class User(peewee.Model):
 
 class Tweet(peewee.Model):
 
+    KEYWORD_MATCHER = re.compile("(coke|coca\-cola|diet cola)", re.I)
+
     class Meta:
         database = DB
 
     message_id = peewee.IntegerField(primary_key=True)
     user = peewee.ForeignKeyField(User, related_name="tweets")
     message = peewee.TextField()
-    updated_date = peewee.DateTimeField()
+    sentiment = peewee.FloatField(indexed=True)
+
+    @property
+    def contains_keyword(self):
+        return self.KEYWORD_MATCHER.search(self.message) is not None
+
+    @classmethod
+    def by_sentiment(cls):
+        """Get all tweets ordered by their sentiment value"""
+        # TODO: pagination?
+        return cls.select().order_by(Tweet.sentiment.desc())

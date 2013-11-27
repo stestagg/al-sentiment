@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<button class="btn">Fetch more messages</button>
+<div id="status">
+Loading
+</div>
+<button id="more-tweets" class="btn btn-primary">Fetch more messages</button>
+<div id="tweets" class="list-group">
+
+</div>
 {% endblock %}

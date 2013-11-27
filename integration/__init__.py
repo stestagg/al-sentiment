@@ -28,7 +28,7 @@ class Webserver(object):
                                      "--port=%s" % (cls.PORT)])
         # This is *ugly* but quick and simple for now,
         # TODO: use socket polling with process monitoring
-        time.sleep(0.5)
+        time.sleep(1)
 
     @classmethod
     def stop(cls):

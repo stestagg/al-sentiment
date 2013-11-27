@@ -14,16 +14,28 @@ def fetch_tweets(feed_url=None):
         return new_tweets.get("error", {}).get("message", "Unknown error")
     try:
         handle_new_tweets(new_tweets)
-    except Exception, e:
+    except Exception as e:
         # TODO: don't return unguarded exception messages to user
+        raise
         return e.message
 
 
 def handle_new_tweets(tweets):
     for data in tweets:
         # Example: {"created_at":"2012-09-27T16:16:26Z","followers":9,"id":10,
-        #            "message":"Coca cola sucks, man","sentiment":-0.6,
+        #            "message":"Coca cola sucks, man",
+        #            "sentiment":-0.6,
         #            "updated_at":"2012-09-27T16:16:26Z",
         #            "user_handle":"@disser_ono"}
         user = sentiment.models.User.get_and_update_followers(
             handle=data["user_handle"], followers=data["followers"])
+        existing = sentiment.models.Tweet.select().where(
+            sentiment.models.Tweet.message_id == data["id"]).count()
+        if existing:
+            # This assumes that no two tweets will share the same ID
+            continue
+        tweet = sentiment.models.Tweet.create(
+            message=data["message"],
+            message_id=data["id"],
+            sentiment=data["sentiment"],
+            user=user)
