@@ -52,7 +52,9 @@ class FeedTest(unittest.TestCase):
 
     def test_feed_failures(self):
         # Here's to hoping that 404.example.com never exists
-        with fin.patch.patch(sentiment.feed, "FEED_URL", "http://404.example.com"):
+        with fin.patch.patch(sentiment.feed,
+                             "FEED_URL",
+                             "http://404.example.com"):
             self.assertIn(
                 "nodename nor servname provided, or not known",
                 sentiment.feed.fetch_tweets())
