@@ -20,7 +20,7 @@ class Webserver(object):
     def start(cls):
         cls.PROC = subprocess.Popen([
             sys.executable,
-
+            os.path.join(ROOT, "sentiment", "server.py"),
             "--port=%s" % (cls.PORT)])
         # This is *ugly* but quick and simple for now,
         # TODO: use socket polling with process monitoring
