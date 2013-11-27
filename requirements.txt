@@ -1,5 +1,5 @@
-fin
-flask
-docopt
-peewee
-requests
+fin==1.314
+Flask==0.10.1
+docopt==0.6.1
+peewee==2.1.6
+requests==2.0.1
