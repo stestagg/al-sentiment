@@ -39,7 +39,7 @@ class User(peewee.Model):
 
 class Tweet(peewee.Model):
 
-    KEYWORD_MATCHER = re.compile("(coke|coca\-cola|diet cola)", re.I)
+    KEYWORD_MATCHER = re.compile(r"\b(coke|coca\-cola|diet cola)\b", re.I)
 
     class Meta:
         database = DB
