@@ -25,7 +25,8 @@ class Webserver(object):
     @classmethod
     def start(cls):
         cls.PROC = subprocess.Popen([os.path.join(ROOT, "runserver"),
-                                     "--port=%s" % (cls.PORT)])
+                                     "--port=%s" % (cls.PORT,),
+                                     "--feed=http://www.google.com"])
         # This is *ugly* but quick and simple for now,
         # TODO: use socket polling with process monitoring
         time.sleep(1)

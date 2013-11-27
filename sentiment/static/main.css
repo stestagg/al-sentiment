@@ -6,3 +6,13 @@ body{
 .tagged{
   background: #f2dede;
 }
+
+.sentiment{
+  /* Sentiment faces go on the right*/
+  float: right;
+}
+
+.list-group-item{
+  /* Prevent the sentiment faces overflowing their boxes */
+  min-height: 38px;
+}

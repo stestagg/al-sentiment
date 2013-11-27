@@ -48,13 +48,22 @@ class Tweet(peewee.Model):
     user = peewee.ForeignKeyField(User, related_name="tweets")
     message = peewee.TextField()
     sentiment = peewee.FloatField(indexed=True)
-
-    @property
-    def contains_keyword(self):
-        return self.KEYWORD_MATCHER.search(self.message) is not None
+    seen_count = peewee.IntegerField(default=1)
 
     @classmethod
     def by_sentiment(cls):
         """Get all tweets ordered by their sentiment value"""
         # TODO: pagination?
         return cls.select().order_by(Tweet.sentiment.desc())
+
+    @property
+    def contains_keyword(self):
+        return self.KEYWORD_MATCHER.search(self.message) is not None
+
+    @property
+    def sentiment_text(self):
+        if self.sentiment > 0:
+            return "positive"
+        if self.sentiment == 0:
+            return "neutral"
+        return "negative"

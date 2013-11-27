@@ -57,7 +57,9 @@ def main():
     except ValueError:
         usage("Port must be an integer")
 
-    # TODO: update the feed url based on options
+    if options["--feed"]:
+        sentiment.feed.FEED_URL = options["--feed"]
+
     # Connect to the right Database
     sentiment.models.setup(options["--database"])
     app.run(port=port, host=options["--listen"], debug=options["--debug"])

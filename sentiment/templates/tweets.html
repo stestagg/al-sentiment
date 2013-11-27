@@ -1,6 +1,13 @@
 {% for tweet in tweets %}
 <div class="list-group-item {% if tweet.contains_keyword %}tagged{% endif %}">
-<div>By: <b>{{tweet.user.handle}}</b> - Sentiment: {{tweet.sentiment}}</div>
+<img class="sentiment" src="/static/faces/{{tweet.sentiment_text}}.png">
+<div>
+  By: <b>{{tweet.user.handle}}</b>
+  - Sentiment: {{tweet.sentiment}}
+  {% if tweet.seen_count > 1 %}
+  Seen {{ tweet.seen_count }} times
+  {% endif %}
+</div>
 {{tweet.message}}
 </div>
 {% endfor %}
